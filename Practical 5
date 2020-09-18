@@ -1,0 +1,60 @@
+Samba is a powerful suite of applications that provides an open source implementation of the Server Message Block/Common Internet File System (SMB/CIFS) protocol.
+Among other things, Samba helps Linux-based systems interoperate with Windows-based operating systems.
+Samba transparently provides file and print sharing services to Windows clients as well as other networked clients running other operating systems.
+It does this through the use of the native Microsoft networking protocols SMB/CIFS. From a system administrator’s point of view,
+this means you can deploy a Linux-based server and use it to 
+provide file-sharing, authentication, print, and other services to other non-native Linux clients such as Microsoft Windows systems.
+Using Samba means that Windows systems can use their native tongue to talk to the Linux server—which means fewer hassles for you and seamless integration for your users.
+
+STEPS:
+
+install samba
+#sudo apt-get install samba
+
+Create Shared folder named "samba_shared"
+#mkdir samba_shared 
+
+create files to share in this path /home/kali/samba_shared 
+#cd /home/kali/samba_shared
+#touch a.txt b.txt c.txt
+
+#cd /etc/samba
+#ls /etc/samba
+#cp smb.conf smb.conf_bkp (for backup)
+
+open smb.conf in the text editor
+#sudo nano smb.conf
+
+delete all the content in smb.conf 
+and then write:
+[Samba_Shared]
+   comment =Welcome to samba
+   path = /home/kali/samba_shared
+   browseable = yes
+   read only = yes
+
+then save it.
+
+download smbclient 
+#sudo apt-get install smb-client
+
+#sudo systemctl start smbd
+#sudo systemctl stop nmbd
+check the status
+#sudo systemctl status smbd
+
+#whoami command
+# sudo pdbedit -a -u $(whoami)
+Enter your passwd
+#sudo pdbedit -L (to check all users)
+#sudo ufw allow from 192.168.0.0/16 (or24 my ip was 168.52.128/24) to any app Samba
+(this will make any connectionn possible to connect)
+check for your ip too : ip a or ip addr
+#sudo ufw reload  (will reload your firewall)
+you can check your working or not by :
+#sudo smbcllient -U <username>(mine is kali) -L  //your ip
+you can also try restarting your smbd and nmbd
+#sudo systemctl restart smbd/nmbd
+and then check their status'
+then copy your ip addr and then paste in windows 10's  run option.
+
